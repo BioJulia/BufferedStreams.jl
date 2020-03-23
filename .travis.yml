@@ -3,8 +3,8 @@ os:
   - linux
   - osx
 julia:
-  - 0.7
   - 1.0
+  - 1
   - nightly
 notifications:
   email: false
@@ -12,6 +12,8 @@ notifications:
 matrix:
   allow_failures:
   - julia: nightly
+
+script: travis_wait 60 julia --code-coverage -e 'using Pkg; Pkg.build(); Pkg.test(coverage=true)'
 
 after_success:
   - julia -e 'using Pkg; ps=Pkg.PackageSpec(name="Documenter", version="0.19"); Pkg.add(ps); Pkg.pin(ps); Pkg.add("Coverage")'
